@@ -1,25 +1,40 @@
-package shape;
+package hedspi.group01.force.model.object;
 
-import javafx.scene.shape.Box;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
-public class MyCube extends MyShape {
-    private double sideLength;
+public class Cube extends MainObject {
+    private DoubleProperty size = new SimpleDoubleProperty(MAX * 0.3);
+    public static final double MAX = 1.0;
+    public static final double MIN = 0.1;
 
-    public MyCube(double sideLength, double mass) {
+    public Cube() {
+        super();
+    }
+
+    public Cube(double mass) throws Exception {
         super(mass);
-        this.sideLength = sideLength;
     }
 
-    public double getSideLength() {
-        return sideLength;
+    public Cube(double mass, double size) throws Exception {
+        this(mass);
+        setSize(size);
     }
 
-    public void setSideLength(double sideLength) {
-        this.sideLength = sideLength;
+    public DoubleProperty sizeProperty() {
+        return size;
     }
 
-    @Override
-    public Box render() {
-        return new Box(sideLength, sideLength, sideLength);
+    public double getSize() {
+        return size.get();
+    }
+
+    public void setSize(double size) throws Exception {
+        if (size < MIN || size > MAX) {
+            setSize(MAX * 0.3);
+            throw new Exception("Cube's size must be >= " + MIN + " and <= " + MAX);
+        } else {
+            this.size.setValue(size);
+        }
     }
 }
