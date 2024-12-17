@@ -117,9 +117,9 @@ public class Cylinder extends MainObject implements MovingObject {
         updateAngle(oldAngVel, t);
     }
 
-    @Override
-    public void applyForceInTime(Force netforce, Force fForce, double t) {
-        super.applyForceInTime(netforce, fForce, t);
-        this.applyForceInTimeRotate(fForce, t);
-    }
+//    @Override
+//    public void applyForceInTime(Force netforce, Force fForce, double t) {
+//        super.applyForceInTime(netforce, fForce, t);
+//        this.applyForceInTimeRotate(fForce, t);
+//    }
 }
