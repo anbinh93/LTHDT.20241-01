@@ -11,12 +11,12 @@
    <children>
       <ImageView fitHeight="300.0" fitWidth="713.0" pickOnBounds="true" preserveRatio="true" x="-100.0" y="-50.0">
          <image>
-            <Image url="@../background2.svg.png" />
+            <Image url="@../resource/background2.svg.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="300.0" fitWidth="713.0" layoutX="713.0" pickOnBounds="true" preserveRatio="true" x="-100.0" y="-50.0">
          <image>
-            <Image url="@../background2.svg.png" />
+            <Image url="@../resource/background2.svg.png" />
          </image>
       </ImageView>
       <AnchorPane prefHeight="50.0" prefWidth="315.0">

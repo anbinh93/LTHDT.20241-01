@@ -138,6 +138,15 @@ public abstract class MainObject {
         updateVelocity(deltaTime);
         updatePosition(oldVel, deltaTime);
     }
+
+    public HorizontalVector accProperty() {
+        return acceleration;
+    }
+
+    public HorizontalVector velProperty() {
+        return velocity;
+    }
+
 }
 
 
