@@ -1,4 +1,4 @@
-package model.object;
+package hedspi.group01.force.model.object;
 public abstract class MainObject {
     private int id;
     private float xpos;

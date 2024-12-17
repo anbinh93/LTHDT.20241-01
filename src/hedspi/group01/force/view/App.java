@@ -1,4 +1,4 @@
-package view;
+package hedspi.group01.force.view;
 
 import java.io.IOException;
 import javafx.application.Application;

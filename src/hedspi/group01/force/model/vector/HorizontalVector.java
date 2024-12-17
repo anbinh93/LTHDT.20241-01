@@ -1,4 +1,4 @@
-package Force;
+package hedspi.group01.force.model.vector;
 
 public abstract class HorizontalVector {
 	private double magnitude; // Độ lớn của vector

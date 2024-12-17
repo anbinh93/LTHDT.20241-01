@@ -1,4 +1,4 @@
-package Simulation;
+package hedspi.group01.force.model;
 
 public class PhysicsCalculator {
 	public static double calculateNetForce(double appliedForce, double frictionForce) {

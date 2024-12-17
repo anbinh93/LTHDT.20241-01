@@ -1,4 +1,4 @@
-package Surface;
+package hedspi.group01.force.model.surface;
 
 
 public class Surface {
