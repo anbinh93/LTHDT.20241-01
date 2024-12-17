@@ -30,7 +30,7 @@ public class App extends Application{
 	
 	public void initRootLayout() {
 		try {
-			root = (StackPane) FXMLLoader.load(getClass().getResource("/resource/fxml/RootLayout.fxml"));
+			root = (StackPane) FXMLLoader.load(getClass().getResource("/view/RootLayout.fxml"));
 			
 			Scene scene = new Scene(root, 600, 400);
 			mainStage.setScene(scene);
@@ -54,7 +54,7 @@ public class App extends Application{
 	public void showStatsPanel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/resource/fxml/StatisticsPanel.fxml"));
+			loader.setLocation(getClass().getResource("/view/StatisticsPanel.fxml"));
 			AnchorPane statsPanel = (AnchorPane) loader.load();
 		
 			fg.setLeft(statsPanel);
@@ -66,7 +66,7 @@ public class App extends Application{
 	public void showControlPanel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/resource/fxml/ControlPanel.fxml"));
+			loader.setLocation(getClass().getResource("/view/ControlPanel.fxml"));
 			AnchorPane controlPanel = (AnchorPane) loader.load();
 		
 			fg.setRight(controlPanel);
@@ -82,7 +82,7 @@ public class App extends Application{
 			
 			for (int i = 0; i < 3; i++) {
 				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("/resource/fxml/" + panelName[i] + "Panel.fxml"));
+				loader.setLocation(getClass().getResource("/view/" + panelName[i] + "Panel.fxml"));
 				panel[i] = (AnchorPane) loader.load();
 			
 				controlPanels.getChildren().add(i, panel[i]);
@@ -96,7 +96,7 @@ public class App extends Application{
 	public void showAnimationPanel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/resource/fxml/Animation.fxml"));
+			loader.setLocation(getClass().getResource("/view/Animation.fxml"));
 			Pane panel = (Pane) loader.load();
 			
 			fg.setCenter(panel);
