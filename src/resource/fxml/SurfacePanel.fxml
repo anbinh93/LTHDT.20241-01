@@ -7,57 +7,25 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="54.0" text="Surface Controls">
+      <Label layoutX="53.0" text="Surface Controls">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
       <Label layoutX="48.0" layoutY="17.0" text="Friction Coefficients" />
       <TabPane layoutY="36.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Static">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" />
-               </content>
+         <tabs>
+            <Tab text="Static">
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="RadioButton">
-                           <VBox.margin>
-                              <Insets left="10.0" top="5.0" />
-                           </VBox.margin></RadioButton>
-                        <Slider prefHeight="14.0" prefWidth="176.0">
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding>
-                        </Slider>
-                        <RadioButton mnemonicParsing="false" text="Number input">
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin></RadioButton>
-                        <Spinner prefHeight="15.0" prefWidth="177.0">
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
-                        </Spinner>
-                     </children>
-                  </VBox>
-               </content>
-          </Tab>
-          <Tab text="Kinetic">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <RadioButton mnemonicParsing="false" text="RadioButton">
+                        <RadioButton mnemonicParsing="false" selected="true" text="Slider">
                            <VBox.margin>
                               <Insets left="10.0" top="5.0" />
                            </VBox.margin>
@@ -83,8 +51,39 @@
                      </children>
                   </VBox>
                </content>
-          </Tab>
-        </tabs>
+            </Tab>
+            <Tab text="Kinetic">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <RadioButton mnemonicParsing="false" selected="true" text="Slider">
+                           <VBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <Slider prefHeight="14.0" prefWidth="176.0">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Slider>
+                        <RadioButton mnemonicParsing="false" text="Number input">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <Spinner prefHeight="15.0" prefWidth="177.0">
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </Spinner>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
       </TabPane>
    </children>
-</Pane>
+</AnchorPane>
