@@ -1,4 +1,4 @@
-package view;
+package hedspi.group01.force.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
