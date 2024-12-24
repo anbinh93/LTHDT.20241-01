@@ -4,111 +4,97 @@ package hedspi.group01.force.model.surface;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+//-------------------------------------------------------------------------------------------
+
 /**
  * This class is used to represent surface which contains attributes and methods
  * for adjusting static friction coefficient and kinetic friction coefficient
  *
  */
 public class Surface {
-    /**
-     * Holds the max static coefficient of class Surface
-     */
-    public static final double MAX_STA_COEF = 1.0;
-    /**
-     * Holds the static friction property of this Surface
-     */
-    private DoubleProperty staCoef = new SimpleDoubleProperty(MAX_STA_COEF / 2);
-    /**
-     * Holds the kinetic friction coefficient of this Surface
-     */
-    private DoubleProperty kiCoef = new SimpleDoubleProperty(MAX_STA_COEF / 4);
+	//-------------------------------------------------------------------------------------------
+    //Holds the max static coefficient of class Surface
+    public static final double MAX_STATIC_COEFFICIENT = 1.0;
+    
+    //Holds the static friction property of this Surface
+    private DoubleProperty staticCoefficient = new SimpleDoubleProperty(MAX_STATIC_COEFFICIENT / 2);
+    
+    
+    //Holds the kinetic friction coefficient of this Surface
+    private DoubleProperty kineticCoefficient = new SimpleDoubleProperty(MAX_STATIC_COEFFICIENT / 4);
+    
+    
+    //Holds the step of static/kinetic coefficient of class Surface
 
-    /**
-     * Holds the step of static/kinetic coefficient of class Surface
-     */
     public static final double STEP_COEF = 0.001;
 
-    /**
-     * Default class constructor
-     */
-    public Surface() {
-    }
+  //-------------------------------------------------------------------------------------------
+    //Class constructor specifying static friction coefficient and kinetic friction
 
-    /**
-     * Class constructor specifying static friction coefficient and set kinetic
-     */
-    public Surface(double staCoef) throws Exception {
-        initialize(staCoef, staCoef / 2);
+    public Surface(double staticCoefficient, double kineticCoefficient) throws Exception {
+    	//note : đưa ra lỗi nếu như staticCoeeficient <= kineticCoefficient
+		 if (staticCoefficient <= kineticCoefficient) {
+		        throw new IllegalArgumentException("Static coefficient must be greater than kinetic coefficient");
+		 }
+		 else {
+			 this.staticCoefficient.set(kineticCoefficient); 
+			 this.kineticCoefficient.set(kineticCoefficient); 
+		 }
+		 
     }
+    
 
-    /**
-     * Class constructor specifying static friction coefficient and kinetic friction
-     */
-    public Surface(double staCoef, double kiCoef) throws Exception {
-        initialize(staCoef, kiCoef);
+	public void reset() {
+		this.staticCoefficient.set(0);
+		this.kineticCoefficient.set(0);
+	}
+    
+  //-------------------------------------------------------------------------------------------
+    // Gets the static friction coefficient property of this Surface
+
+    public DoubleProperty staticCoefficientProperty() {
+        return staticCoefficient;
     }
-
-    private void initialize(double staCoef, double kiCoef) throws Exception {
-        setStaCoef(staCoef);
-        setKiCoef(kiCoef);
+    public double getStaticCoefficient() {
+        return staticCoefficient.get();
     }
-
-    /**
-     * Gets the static friction coefficient property of this Surface
-     */
-    public DoubleProperty staCoefProperty() {
-        return staCoef;
-    }
-
-    /**
-     * Gets the static friction coefficient of this Surface
-     */
-    public double getStaCoef() {
-        return staCoef.get();
-    }
-
-    /**
-     * Gets the kinetic friction coefficient property of this Surface
-     */
-    public DoubleProperty kiCoefProperty() {
-        return kiCoef;
-    }
-
-    /**
-     * Gets the kinetic friction coefficient of this Surface
-     */
-    public double getKiCoef() {
-        return kiCoef.get();
-    }
-
-    /**
-     * Changes the static friction coefficient of this Surface
-     */
-    public void setStaCoef(double staCoef) throws Exception {
-        if (staCoef == 0) {
-            // Sets both staCoef and kiCoef to 0 if staCoef = 0
-            kiCoef.setValue(0);
-            this.staCoef.setValue(0);
-        } else if (staCoef <= getKiCoef()) {
-            this.staCoef.setValue(getKiCoef() + STEP_COEF);
+    public void setStaticCoefficient(double coefficient) throws Exception {
+    	if (coefficient == 0) {
+            // Sets both staticCoefficient and kineticCoefficient to 0 if staticCoefficient = 0
+            kineticCoefficient.set(0);
+            this.staticCoefficient.setValue(0);
+            
+        } else if (coefficient <= getKineticCoefficient()) {
+            this.staticCoefficient.setValue(getKineticCoefficient() + STEP_COEF);
             throw new Exception("Static friction coefficient must be greater than the kinetic friction coefficient: "
-                    + String.format("%.3f", getKiCoef()));
+                    + String.format("%.3f", getKineticCoefficient()));
+            
         } else {
-            this.staCoef.setValue(staCoef);
+            this.staticCoefficient.set(coefficient);
         }
     }
+    
+    
+    //Changes the kinetic friction coefficient of this Surface
 
-    /**
-     * Changes the kinetic friction coefficient of this Surface
-     */
-    public void setKiCoef(double kiCoef) throws Exception {
-        if (getStaCoef() <= kiCoef) {
-            // Handles case when staCoef has already = 0
-            this.kiCoef.setValue(Math.max(0, getStaCoef() - STEP_COEF));
+    public DoubleProperty kineticCoefficientProperty() {
+        return kineticCoefficient;
+    }
+    public double getKineticCoefficient() {
+        return kineticCoefficient.get();
+    }
+    public void setKineticCoefficient(double coefficient) throws Exception {
+    	
+    	if (getStaticCoefficient() <= coefficient) {
+            // Handles case when staticCoefficient has already = 0
+            this.kineticCoefficient.setValue(Math.max(0, getStaticCoefficient() - STEP_COEF));
             throw new Exception("Kinetic friction coefficient must be less than the static friction coefficient: "
-                    + String.format("%.3f", getStaCoef()));
+                    + String.format("%.3f", getStaticCoefficient()));
         } else {
-            this.kiCoef.setValue(kiCoef);
+            this.kineticCoefficient.set(coefficient);
         }
     }
+  //-------------------------------------------------------------------------------------------
+
+
 }

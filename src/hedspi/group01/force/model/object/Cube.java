@@ -1,40 +1,111 @@
 package hedspi.group01.force.model.object;
 
+import hedspi.group01.force.model.PhysicsCalculator;
+import hedspi.group01.force.model.surface.Surface;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+//-------------------------------------------------------------------------------------------
+
+
 public class Cube extends MainObject {
-    private DoubleProperty size = new SimpleDoubleProperty(MAX * 0.3);
+	//-------------------------------------------------------------------------------------------
+    private DoubleProperty sideLength = new SimpleDoubleProperty(MAX * 0.3);
     public static final double MAX = 1.0;
     public static final double MIN = 0.1;
 
-    public Cube() {
-        super();
+
+    public Cube(double mass, double position, double velocity, 
+    		double acceleration, double sideLength) throws Exception {
+        super(mass, position,velocity,acceleration);
+        this.sideLength.setValue(sideLength);
     }
 
-    public Cube(double mass) throws Exception {
-        super(mass);
+  //-------------------------------------------------------------------------------------------
+    
+    // -- sideLength --
+    public DoubleProperty sideLengthProperty() {
+        return sideLength;
     }
-
-    public Cube(double mass, double size) throws Exception {
-        this(mass);
-        setSize(size);
+    public double getSideLength() {
+    	return sideLength.get();
     }
-
-    public DoubleProperty sizeProperty() {
-        return size;
-    }
-
-    public double getSize() {
-        return size.get();
-    }
-
-    public void setSize(double size) throws Exception {
-        if (size < MIN || size > MAX) {
-            setSize(MAX * 0.3);
-            throw new Exception("Cube's size must be >= " + MIN + " and <= " + MAX);
+    
+    public void setSideLength(double sideLength )throws Exception  {
+        if (sideLength < MIN || sideLength > MAX) {
+            this.sideLength.set(MAX*0.3);
+            throw new Exception("Cube's side length must be >= " + MIN + " and <= " + MAX);
         } else {
-            this.size.setValue(size);
+            this.sideLength.set(sideLength);
+        }		
+	}
+    
+  //-------------------------------------------------------------------------------------------
+
+//	@Override
+//	public double calculateFriction(double appliedForce, Surface surface) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+	
+	@Override
+    public double calculateFriction(double appliedForce, Surface surface) {
+		double normalForce = PhysicsCalculator.calculateNormalForce(getMass());
+		double staticCo = surface.getStaticCoefficient();
+		double kineticCo = surface.getKineticCoefficient();
+		
+		if (appliedForce <= normalForce * staticCo ) {
+			if (!isMoving()) {
+				setMoving(false);
+			}
+			else {
+				setMoving(true);
+			}
+			return appliedForce;
+		}
+		else {
+			setMoving(true);
+			return normalForce * kineticCo;
+		}
+		
+		
+		//throw exception
+		//them ca phan code throw exception khi nhap vao mot so sai format ? la phan cua controller hay gi ?
+
+		
+	}
+
+	@Override
+    public void update(double deltaTime , Surface surface, double appliedForce) {
+        
+        double frictionForce = calculateFriction(appliedForce, surface );
+        double netForce = PhysicsCalculator.calculateNetForce(appliedForce, frictionForce);
+        
+        //neu dang dung yen
+        if (!isMoving()) {
+        	
+        	setAcceleration(0);
+        	setPosition(getPosition());
+        	setVelocity(0);
         }
+        else {
+        	double newAcceleration = PhysicsCalculator.calculateAcceleration(netForce, getMass());
+            
+            double newVelocity = PhysicsCalculator.calculateVelocity(getVelocity(), newAcceleration, deltaTime);
+            //nếu như chuyển động chậm dần tới v =0 thì cho nó dừng lại
+            if (newVelocity <0) {
+            	setMoving(false);
+            	return;
+            }
+            
+            double newPosition = PhysicsCalculator.calculatePosition(getPosition(), getVelocity(), newAcceleration, deltaTime);
+            
+            setAcceleration(newAcceleration);
+            setPosition(newPosition);
+            setVelocity(newVelocity);	
+        }
+        
+    	return;
     }
+	//-------------------------------------------------------------------------------------------
 }

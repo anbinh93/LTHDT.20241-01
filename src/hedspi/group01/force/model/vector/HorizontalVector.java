@@ -1,67 +1,43 @@
 package hedspi.group01.force.model.vector;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+//-------------------------------------------------------------------------------------------
+
 public class HorizontalVector {
-    protected BooleanProperty direction = new SimpleBooleanProperty(true);
-    protected DoubleProperty magnitude = new SimpleDoubleProperty(0.0);
+	//-------------------------------------------------------------------------------------------
+	protected DoubleProperty magnitude = new SimpleDoubleProperty(0.0); // Độ lớn của vector
+    protected DoubleProperty direction = new SimpleDoubleProperty(0.0); // Hướng của vector, 1 cho phải, -1 cho trái
+    
+  //-------------------------------------------------------------------------------------------
 
-    public HorizontalVector(double value) {
-        this.setValue(value);
+    public HorizontalVector(double magnitude, double direction) {
+    	// if  magnitude <0 thif throw exception , vi mac dinh magnitude luon >0
+        this.magnitude.set(magnitude);
+        this.direction.set(direction); //???? 
     }
-
-    public HorizontalVector(double magnitude, boolean direction) {
-        this.setValue(magnitude);
-        this.setDirection(direction);
-    }
-
-    public BooleanProperty directionProperty() {
+    
+  //-------------------------------------------------------------------------------------------
+    public DoubleProperty directionProperty() {
         return this.direction;
     }
-
-    public boolean getDirection() {
+    public double getDirection() {
         return this.direction.get();
     }
-
-    public void setDirection(boolean isRight) {
-        this.direction.set(isRight);
-        updateDirectionValue();
+    public void setDirection(double direction) {
+        this.direction.set(direction);
     }
 
-    public DoubleProperty valueProperty() {
+    
+    public DoubleProperty magnitudeProperty() {
         return this.magnitude;
     }
-
-    public double getValue() {
+    public double getMagnitude() {
         return this.magnitude.get();
     }
-
-    public void setValue(double value) {
+    public void setMagnitude(double value) {
         this.magnitude.set(value);
-        updateValueDirection();
     }
-
-    public double getLength() {
-        return Math.abs(this.magnitude.doubleValue());
-    }
-
-    protected void updateValueDirection() {
-        if (this.getValue() >= 0) {
-            this.direction.set(true);
-        } else {
-            this.direction.set(false);
-        }
-    }
-
-    protected void updateDirectionValue() {
-        double absValue = Math.abs(this.getValue());
-        if (this.getDirection()) {
-            this.magnitude.set(absValue);
-        } else {
-            this.magnitude.set(-absValue);
-        }
-    }
+  //-------------------------------------------------------------------------------------------
 }

@@ -2,15 +2,10 @@ package hedspi.group01.force.model;
 import hedspi.group01.force.model.object.MainObject;
 import hedspi.group01.force.model.surface.Surface;
 import hedspi.group01.force.model.vector.AppliedForce;
-import hedspi.group01.force.model.vector.Force;
-import hedspi.group01.force.model.vector.FrictionForce;
-import hedspi.group01.force.model.vector.HorizontalVector;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+
+//-------------------------------------------------------------------------------------------
 
 /**
  * This class is used to contain all information about model. It aggregates
@@ -21,175 +16,135 @@ import javafx.beans.property.SimpleObjectProperty;
  *
  */
 public class Simulation {
-
-    private BooleanProperty isStart = new SimpleBooleanProperty(false);
-    private BooleanProperty isPause = new SimpleBooleanProperty(true);
-    private ObjectProperty<MainObject> obj = new SimpleObjectProperty<>();
-    private ObjectProperty<HorizontalVector> sysVel = new SimpleObjectProperty<>();
-    private ObjectProperty<HorizontalVector> sysAcc = new SimpleObjectProperty<>();
-    private DoubleProperty sysAngAcc = new SimpleDoubleProperty(0);
-    private DoubleProperty sysAngVel = new SimpleDoubleProperty(0);
-    private Force netForce = new Force(0);
-    private Surface surface;
-    private Force aForce;
-    private Force fForce;
-
-    public Simulation() {
-        this.surface = new Surface();
-        this.aForce = new AppliedForce(0);
-        this.fForce = new FrictionForce(0);
-    }
-
-    public Simulation(MainObject mainObj, Surface surface, AppliedForce aForce) {
-        this.obj.set(mainObj);
+	//-------------------------------------------------------------------------------------------
+	// Thêm danh sách các đối tượng cần mô phỏng
+	private MainObject object;
+	private Surface surface;
+	private AppliedForce appliedForce;
+	
+	private BooleanProperty isPaused;
+    private BooleanProperty isStarted;
+  //-------------------------------------------------------------------------------------------
+    
+    public Simulation(MainObject object, Surface surface, AppliedForce appliedForce) {
+        this.object = object;
         this.surface = surface;
-        this.aForce = aForce;
-        this.fForce = new FrictionForce(0, surface, mainObj, aForce);
-        updateNetForce();
+        this.appliedForce = appliedForce;
+        this.isPaused = new SimpleBooleanProperty(true); // Mặc định là tạm dừng khi khởi tạo
+        this.isStarted = new SimpleBooleanProperty(false); // Mặc định chưa bắt đầu
     }
-
-    public void setSysVel(HorizontalVector horizontalVector) {
-        this.sysVel.set(horizontalVector);
-    }
-
-    public void setSysAcc(HorizontalVector horizontalVector) {
-        this.sysAcc.set(horizontalVector);
-    }
-
-    public ObjectProperty<HorizontalVector> sysVelProperty() {
-        return sysVel;
-    }
-
-    public ObjectProperty<HorizontalVector> sysAccProperty() {
-        return sysAcc;
-    }
-
-    public DoubleProperty getSysAngAcc() {
-        return sysAngAcc;
-    }
-
-    public void setSysAngAcc(double sysAngAcc) {
-        this.sysAngAcc.set(sysAngAcc);
-    }
-
-    public DoubleProperty getSysAngVel() {
-        return sysAngVel;
-    }
-
-    public void setSysAngVel(double sysAngVel) {
-        this.sysAngVel.set(sysAngVel);
-    }
-
-    public ObjectProperty<MainObject> objProperty() {
-        return this.obj;
-    }
-
-    public void setObject(MainObject obj) {
-        this.obj.set(obj);
-        if (obj == null) {
-            this.sysAcc.set(new HorizontalVector(0));
-            this.sysVel.set(new HorizontalVector(0));
-        } else {
-            this.sysAcc.set(obj.accProperty());
-            this.sysVel.set(obj.velProperty());
+    
+    /**
+     * Applies both net force and friction force over a time interval, updating
+     * acceleration, velocity, and position accordingly.
+     *
+     * @param deltaTime The time interval for integration.
+     */
+    public void update(double deltaTime) {
+        if (isPaused.get() || !isStarted.get()) {
+            return; // Không cập nhật nếu mô phỏng đang tạm dừng hoặc chưa bắt đầu
         }
+
+        double appliedForceMagnitude = appliedForce.getMagnitude();
+        object.update(deltaTime, surface, appliedForceMagnitude);
     }
 
-    public MainObject getObj() {
-        return this.obj.get();
-    }
+    /**
+     * Runs the simulation over a specified total time and time step.
+     *
+     * @param totalTime The total simulation time.
+     * @param timeStep  The time step for updates.
+     */
+    public void runSimulation(double totalTime, double timeStep) {
+        double currentTime = 0.0;
 
-    public BooleanProperty isPauseProperty() {
-        return isPause;
-    }
-
-    public boolean getIsPause() {
-        return isPause.get();
-    }
-
-    public void setIsPause(boolean isPause) {
-        this.isPause.set(isPause);
-    }
-
-    public BooleanProperty isStartProperty() {
-        return this.isStart;
-    }
-
-    public boolean getIsStart() {
-        return this.isStart.get();
-    }
-
-    public void setIsStart(boolean isStart) {
-        this.isStart.set(isStart);
-    }
-
-    public Surface getSur() {
-        return surface;
-    }
-
-    public Force getaForce() {
-        return aForce;
-    }
-
-    public void setaForce(double aForce) {
-        this.aForce.setValue(aForce);
-    }
-
-    public Force getfForce() {
-        return fForce;
-    }
-
-    public Force getNetForce() {
-        return netForce;
-    }
-
-    public void start() {
-        setIsStart(true);
-        setIsPause(false);
-    }
-
-    public void pause() {
-        setIsPause(true);
-    }
-
-    public void conti() {
-        setIsPause(false);
-    }
-
-    public void restart() {
-        setIsStart(false);
-        setIsPause(true);
-        setObject(null);
-        aForce.setValue(0);
-        fForce.setValue(0);
-
-        try {
-            surface.setStaCoef(Surface.MAX_STA_COEF / 2);
-            surface.setKiCoef(Surface.MAX_STA_COEF / 4);
-        } catch (Exception e) {
-            try {
-                surface.setKiCoef(Surface.MAX_STA_COEF / 4);
-                surface.setStaCoef(Surface.MAX_STA_COEF / 2);
-            } catch (Exception e1) {
-                e1.printStackTrace();
+        while (currentTime < totalTime) {
+            if (isPaused.get()) {
+                continue; // Chờ đến khi resume
             }
+
+            System.out.println("Time: " + currentTime + "s");
+            System.out.println("Position: " + object.getPosition() + "m");
+            System.out.println("Velocity: " + object.getVelocity() + "m/s");
+            System.out.println("Acceleration: " + object.getAcceleration() + "m/s²");
+            System.out.println("----------------------------------");
+
+            // Cập nhật trạng thái của hệ thống
+            update(timeStep);
+
+            // Tăng thời gian
+            currentTime += timeStep;
         }
     }
 
-    public void updateObjAcc() {
-        getObj().updateAcceleration(getNetForce());
+    /**
+     * Starts the simulation.
+     */
+    public void start() {
+        isStarted.set(true);
+        isPaused.set(false);
+        System.out.println("Simulation started.");
     }
 
-    public HorizontalVector getObjVel() {
-        return getObj().velProperty();
+    /**
+     * Pauses the simulation.
+     */
+    public void pause() {
+        if (isStarted.get()) {
+            isPaused.set(true);
+            System.out.println("Simulation paused.");
+        }
     }
 
-    public void updateNetForce() {
-        Force newNerForce = Force.sumTwoForce(aForce, fForce);
-        netForce.setValue(newNerForce.getValue());
+    /**
+     * Resumes the simulation from a paused state.
+     */
+    public void resume() {
+        if (isStarted.get() && isPaused.get()) {
+            isPaused.set(false);
+            System.out.println("Simulation resumed.");
+        }
     }
 
-    public void applyForceInTime(double t) {
-        obj.get().applyForceInTime(getNetForce(), getfForce(), t);
+    /**
+     * Resets the simulation to its initial state.
+     */
+    public void reset() {
+        isStarted.set(false);
+        isPaused.set(true);
+
+        // Đặt lại đối tượng, bề mặt và lực tác động về trạng thái ban đầu
+        object.reset();
+        surface.reset();
+        appliedForce.setMagnitude(0);
+
+        System.out.println("Simulation reset.");
     }
+    
+  //-------------------------------------------------------------------------------------------
+    //getter + setter
+    //Checks if the simulation is paused.
+    
+    public BooleanProperty isPausedProperty() {
+        return isPaused;
+    }
+    public boolean isPaused() {
+    	return isPaused.get();
+    }
+    public void setPaused(boolean state) {
+    	isPaused.set(state);
+    }
+
+    //Checks if the simulation has started.
+     
+    public BooleanProperty isStartedProperty() {
+        return isStarted;
+    }
+    public boolean isStarted() {
+    	return isStarted.get();
+    }
+    public void setStarted(boolean state) {
+    	isStarted.set(state);
+    }
+  //-------------------------------------------------------------------------------------------
 }
