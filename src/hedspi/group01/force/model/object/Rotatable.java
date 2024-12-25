@@ -25,8 +25,8 @@ public interface Rotatable {
 
     // -------------------------------------------------------------------------------------------
     // Các Phương thức Abstract
-//
-//    DoubleProperty angAccProperty();
-//    DoubleProperty angVelProperty();
-//    DoubleProperty angleProperty();
+
+    DoubleProperty angAccProperty();
+    DoubleProperty angVelProperty();
+    DoubleProperty angleProperty();
 }

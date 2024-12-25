@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/force.iml" filepath="$PROJECT_DIR$/force.iml" />
       <module fileurl="file://C:/Program Files (x86)/javafx-sdk-23.0.1/lib/lib.iml" filepath="C:/Program Files (x86)/javafx-sdk-23.0.1/lib/lib.iml" />
     </modules>
   </component>
