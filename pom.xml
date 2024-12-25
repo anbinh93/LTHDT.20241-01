@@ -49,7 +49,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>hedspi1.group01.force.view.RootLayout</mainClass>
+                    <mainClass>hedspi.group01.force.view.RootLayout</mainClass>
                 </configuration>
             </plugin>
         </plugins>
