@@ -4,6 +4,7 @@ import hedspi.group01.force.model.surface.Surface;
 import hedspi.group01.force.model.vector.ForceCalculatable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 //-------------------------------------------------------------------------------------------
@@ -17,7 +18,9 @@ public class Cylinder extends MainObject implements Rotatable {
 
     private DoubleProperty angularAcceleration = new SimpleDoubleProperty();
     
-    private BooleanProperty isSliding;
+    private DoubleProperty angle = new SimpleDoubleProperty();
+
+    private BooleanProperty isSliding = new SimpleBooleanProperty(false);
 
     public static final double MAX_RADIUS = 1.0;
     public static final double MIN_RADIUS = 0.1;
@@ -73,6 +76,15 @@ public class Cylinder extends MainObject implements Rotatable {
         this.angularAcceleration.set(angularAcceleration);
     }
 
+    public DoubleProperty angleProperty() {
+        return angle;
+    }
+    public double getAngle() {
+        return angle.get();
+    }
+    public void setAngle(double angle) {
+        this.angle.set(angle);
+    }
     
     
     public BooleanProperty isSlidingProperty() {
@@ -91,6 +103,7 @@ public class Cylinder extends MainObject implements Rotatable {
         super.reset();
         this.angularAcceleration.set(0);
         this.angularVelocity.set(0); 
+        this.angle.set(0);
     }
     
     public double calculateFriction(double appliedForce, Surface surface) {
@@ -133,6 +146,7 @@ public class Cylinder extends MainObject implements Rotatable {
             setVelocity(0);
             setAngularAcceleration(0);
             setAngularVelocity(0);
+            setAngle(0);
         } else {
 
             // Tính gia tốc tịnh tiến (linear acceleration)
@@ -186,6 +200,7 @@ public class Cylinder extends MainObject implements Rotatable {
                 setVelocity(newVelocity);
                 setAngularVelocity(newAngularVelocity);
                 setPosition(newPosition + deltaAngularPosition); /// ?
+                setAngle(getAngle() + deltaAngularPosition);
 
             }
 
