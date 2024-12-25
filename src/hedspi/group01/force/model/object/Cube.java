@@ -15,10 +15,9 @@ public class Cube extends MainObject {
 
     private DoubleProperty sideLength = new SimpleDoubleProperty(MAX_SIZE * 0.3);
 
-    public Cube(double mass, double position, double velocity, 
-    		double acceleration, double sideLength) throws Exception {
-        super(mass, position,velocity,acceleration);
-        this.sideLength.setValue(sideLength);
+    public Cube(double mass, double position, double velocity, double acceleration, double sideLength) throws Exception {
+        super(mass, position, velocity, acceleration);
+        setSideLength(sideLength);
     }
 
   //-------------------------------------------------------------------------------------------
