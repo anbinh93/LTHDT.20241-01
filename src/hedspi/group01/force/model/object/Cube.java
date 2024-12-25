@@ -1,14 +1,14 @@
 package hedspi.group01.force.model.object;
 
-import hedspi.group01.force.model.PhysicsCalculator;
 import hedspi.group01.force.model.surface.Surface;
+import hedspi.group01.force.model.vector.ForceCalculatable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 //-------------------------------------------------------------------------------------------
 
 
-public class Cube extends MainObject {
+public class Cube extends MainObject implements Movable,Rotatable {
 	//-------------------------------------------------------------------------------------------
     public static final double MAX_SIZE = 1.0;
     public static final double MIN_SIZE = 0.1;
@@ -18,7 +18,7 @@ public class Cube extends MainObject {
     public Cube(double mass, double position, double velocity, 
     		double acceleration, double sideLength) throws Exception {
         super(mass, position,velocity,acceleration);
-        this.sideLength.setValue(sideLength);
+        this.setSideLength(sideLength);
     }
 
   //-------------------------------------------------------------------------------------------
@@ -27,14 +27,13 @@ public class Cube extends MainObject {
     public DoubleProperty sideLengthProperty() {
         return sideLength;
     }
-    public double getSideLength() {
-    	return sideLength.get();
+    public double getSideLength() {	return sideLength.get();
     }
     
-    public void setSideLength(double sideLength )throws Exception  {
+    public void setSideLength(double sideLength )throws IllegalArgumentException  {
         if (sideLength < MIN_SIZE || sideLength > MAX_SIZE) {
             this.sideLength.set(MAX_SIZE * 0.3);
-            throw new Exception("Cube's side length must be >= " + MIN_SIZE + " and <= " + MAX_SIZE);
+            throw new IllegalArgumentException("Cube's side length must be >= " + MIN_SIZE + " and <= " + MAX_SIZE);
         } else {
             this.sideLength.set(sideLength);
         }		
@@ -50,7 +49,7 @@ public class Cube extends MainObject {
 	
 	@Override
     public double calculateFriction(double appliedForce, Surface surface) {
-		double normalForce = PhysicsCalculator.calculateNormalForce(getMass());
+		double normalForce =  ForceCalculatable.calculateNormalForce(getMass());
 		double staticCo = surface.getStaticCoefficient();
 		double kineticCo = surface.getKineticCoefficient();
 		
@@ -79,7 +78,7 @@ public class Cube extends MainObject {
     public void update(double deltaTime , Surface surface, double appliedForce) {
         
         double frictionForce = calculateFriction(appliedForce, surface );
-        double netForce = PhysicsCalculator.calculateNetForce(appliedForce, frictionForce);
+        double netForce = ForceCalculatable.calculateNetForce(appliedForce, frictionForce);
         
         //neu dang dung yen
         if (!isMoving()) {
@@ -89,16 +88,16 @@ public class Cube extends MainObject {
         	setVelocity(0);
         }
         else {
-        	double newAcceleration = PhysicsCalculator.calculateAcceleration(netForce, getMass());
+        	double newAcceleration = Movable.calculateAcceleration(netForce, getMass());
             
-            double newVelocity = PhysicsCalculator.calculateVelocity(getVelocity(), newAcceleration, deltaTime);
+            double newVelocity = Movable.calculateVelocity(getVelocity(), newAcceleration, deltaTime);
             //nếu như chuyển động chậm dần tới v =0 thì cho nó dừng lại
             if (newVelocity <0) {
             	setMoving(false);
             	return;
             }
             
-            double newPosition = PhysicsCalculator.calculatePosition(getPosition(), getVelocity(), newAcceleration, deltaTime);
+            double newPosition = Movable.calculatePosition(getPosition(), getVelocity(), newAcceleration, deltaTime);
             
             setAcceleration(newAcceleration);
             setPosition(newPosition);
