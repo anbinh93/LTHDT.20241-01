@@ -2,7 +2,8 @@ package hedspi.group01.force.model.object;
 
 public interface Rotatable {
 	// -------------------------------------------------------------------------------------------
-
+	//Các Phương thức Tĩnh
+	
 	// Tính gia tốc góc (y)
 	public static double calculateAngularAcceleration(double frictionForce, double mass, double radius) {
 		return frictionForce / (1 / 2 * mass * radius * radius);

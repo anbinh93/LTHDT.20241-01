@@ -1,5 +1,6 @@
 package hedspi.group01.force.model.object;
 import hedspi.group01.force.model.surface.Surface;
+import hedspi.group01.force.model.vector.ForceCalculatable;
 import hedspi.group01.force.model.vector.FrictionForce;
 import hedspi.group01.force.model.vector.HorizontalVector;
 import javafx.beans.property.BooleanProperty;
@@ -14,7 +15,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  * horizontal acceleration, and position.
  */
 
-public abstract class MainObject {
+public abstract class MainObject implements Movable,ForceCalculatable {
 	//-------------------------------------------------------------------------------------------
 	private double id;
     public static int nbObject =0;

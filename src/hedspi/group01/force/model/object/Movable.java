@@ -2,15 +2,9 @@ package hedspi.group01.force.model.object;
 
 public interface Movable {
 	// -------------------------------------------------------------------------------------------
-
-	// Tính gia tốc
-	/**
-	 * Updates the acceleration of this object based on the applied force and mass.
-	 * Uses F = m * a, so a = F / m.
-	 *
-	 * @param force The net force applied horizontally.
-	 */
-
+	//Các Phương thức Tĩnh
+	
+	// Tính gia tốc tuyến tính
 	public static double calculateAcceleration(double netForce, double mass) {
 		return netForce / mass;
 	}

@@ -6,7 +6,7 @@ public interface ForceCalculatable {
 		public static final double g = 10.0;  // gia tốc trọng trường giả định là 10 m/s^2
 		
 		//-------------------------------------------------------------------------------------------
-		
+		//Các Phương thức Tĩnh
 		
 		// Tính hợp lực 
 		public static double calculateNetForce(double appliedForce, double frictionForce) {
