@@ -10,7 +10,8 @@ public class RootLayout extends Application{
 	
 	@Override
 	public void start(Stage stage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("/controller/RootLayout.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/hedspi/group01/force/view/RootLayout.fxml"));
+
 		
 		Scene scene = new Scene(root);
 		stage.setTitle("Newton's Laws of Physics Simulator");

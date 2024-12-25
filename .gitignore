@@ -2,3 +2,6 @@
 
 /bin/
 pom.xml
+/target/
+.metadata/
+.setting/

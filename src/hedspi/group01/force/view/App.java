@@ -30,7 +30,7 @@ public class App extends Application{
 	
 	public void initRootLayout() {
 		try {
-			root = (StackPane) FXMLLoader.load(getClass().getResource("/resource/fxml/RootLayout.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/hedspi/group01/force/view/RootLayout.fxml"));
 			
 			Scene scene = new Scene(root, 600, 400);
 			mainStage.setScene(scene);
@@ -54,7 +54,7 @@ public class App extends Application{
 	public void showStatsPanel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/resource/fxml/StatisticsPanel.fxml"));
+			loader.setLocation(getClass().getResource("/hedspi/group01/force/view/StatisticsPanel.fxml"));
 			AnchorPane statsPanel = (AnchorPane) loader.load();
 		
 			fg.setLeft(statsPanel);
@@ -66,7 +66,7 @@ public class App extends Application{
 	public void showControlPanel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/resource/fxml/ControlPanel.fxml"));
+			loader.setLocation(getClass().getResource("/hedspi/group01/force/view/ControlPanel.fxml"));
 			AnchorPane controlPanel = (AnchorPane) loader.load();
 		
 			fg.setRight(controlPanel);
@@ -75,28 +75,12 @@ public class App extends Application{
 		}
 	}
 	
-	public void showHBoxPanels() {
-		try {
-			String[] panelName = {"Object", "Force", "Surface"};
-			AnchorPane[] panel = new AnchorPane[3];
-			
-			for (int i = 0; i < 3; i++) {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("/resource/fxml/" + panelName[i] + "Panel.fxml"));
-				panel[i] = (AnchorPane) loader.load();
-			
-				controlPanels.getChildren().add(i, panel[i]);
-				fg.setBottom(controlPanels);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	public void showHBoxPanels() {	    try {	        String[] panelNames = {"Object", "Force", "Surface"};	        Pane[] panels = new Pane[3]; // Use Pane instead of AnchorPane	        for (int i = 0; i < 3; i++) {	            FXMLLoader loader = new FXMLLoader();	            loader.setLocation(getClass().getResource("/hedspi/group01/force/view/" + panelNames[i] + "Panel.fxml"));	            panels[i] = loader.load(); // No casting to AnchorPane	            controlPanels.getChildren().add(panels[i]);	        }	        fg.setBottom(controlPanels);	    } catch (IOException e) {	        e.printStackTrace();	    }	}
 	
 	public void showAnimationPanel() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/resource/fxml/Animation.fxml"));
+			loader.setLocation(getClass().getResource("/hedspi/group01/force/view/Animation.fxml"));
 			Pane panel = (Pane) loader.load();
 			
 			fg.setCenter(panel);
