@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 //-------------------------------------------------------------------------------------------
 
 public class Cylinder extends MainObject implements Rotatable {
-	//-------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------
 
     private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS * 0.3);
 
@@ -25,19 +25,16 @@ public class Cylinder extends MainObject implements Rotatable {
   //-------------------------------------------------------------------------------------------
     
     
-	public Cylinder(double mass, double initialPosition,double velocity, double acceleration,double radius) throws Exception {
-		super(mass, initialPosition, velocity,acceleration);
-		//if radius <0 then what ? exception
-		this.radius.set(radius); 
-        this.angularVelocity.set(0); 
-        this.angularAcceleration.set(0); 
-	}
-	
-	
-	//-------------------------------------------------------------------------------------------
-	//getters + setters
-	
-	public DoubleProperty radiusProperty() {
+    public Cylinder(double mass, double position, double velocity, double acceleration, double radius) throws Exception {
+        super(mass, position, velocity, acceleration);
+        setRadius(radius);
+    }
+    
+    
+    //-------------------------------------------------------------------------------------------
+    //getters + setters
+    
+    public DoubleProperty radiusProperty() {
         return radius;
     }
     public double getRadius() {
@@ -88,118 +85,134 @@ public class Cylinder extends MainObject implements Rotatable {
         this.isSliding.set(state);
     }
     
+    @Override
+    public DoubleProperty angAccProperty() {
+        return angularAcceleration;
+    }
+
+    @Override
+    public DoubleProperty angVelProperty() {
+        return angularVelocity;
+    }
+
+    @Override
+    public DoubleProperty angleProperty() {
+        // Implement the method to return the angle property
+        return new SimpleDoubleProperty(0); // Replace with actual implementation
+    }
+    
   //-------------------------------------------------------------------------------------------
     @Override
     public void reset() {
-    	super.reset();
-    	this.angularAcceleration.set(0);
-    	this.angularVelocity.set(0); 
+        super.reset();
+        this.angularAcceleration.set(0);
+        this.angularVelocity.set(0); 
     }
     
-	public double calculateFriction(double appliedForce, Surface surface) {
-		double normalForce = PhysicsCalculator.calculateNormalForce(getMass());
-		double staticCo = surface.getStaticCoefficient();
-		double kineticCo = surface.getKineticCoefficient();
+    public double calculateFriction(double appliedForce, Surface surface) {
+        double normalForce = PhysicsCalculator.calculateNormalForce(getMass());
+        double staticCo = surface.getStaticCoefficient();
+        double kineticCo = surface.getKineticCoefficient();
 
-		if (appliedForce == 0) {
-			if (!isMoving()) {
-				setMoving(false);
-			} else {
-				setMoving(true);
-			}
-			setSliding(false);
-			return appliedForce / 3;
-		} else if (appliedForce > 0 && appliedForce <= 3 * normalForce * staticCo) {
-			setMoving(true);
-			// di chuyen lan ko truot
-			setSliding(false);
-			return appliedForce / 3;
-		} else {
-			setMoving(true);
-			// di chuyen lan co truot
-			setSliding(true);
-			return normalForce * kineticCo;
-		}
+        if (appliedForce == 0) {
+            if (!isMoving()) {
+                setMoving(false);
+            } else {
+                setMoving(true);
+            }
+            setSliding(false);
+            return appliedForce / 3;
+        } else if (appliedForce > 0 && appliedForce <= 3 * normalForce * staticCo) {
+            setMoving(true);
+            // di chuyen lan ko truot
+            setSliding(false);
+            return appliedForce / 3;
+        } else {
+            setMoving(true);
+            // di chuyen lan co truot
+            setSliding(true);
+            return normalForce * kineticCo;
+        }
 
-	}
+    }
 
-	@Override
-	public void update(double deltaTime, Surface surface, double appliedForce) {
-		double frictionForce = calculateFriction(appliedForce, surface); // Lực ma sát
+    @Override
+    public void update(double deltaTime, Surface surface, double appliedForce) {
+        double frictionForce = calculateFriction(appliedForce, surface); // Lực ma sát
 
-		double netForce = PhysicsCalculator.calculateNetForce(appliedForce, frictionForce); // Lực tổng
+        double netForce = PhysicsCalculator.calculateNetForce(appliedForce, frictionForce); // Lực tổng
 
-		if (!isMoving()) {
+        if (!isMoving()) {
 
-			setAcceleration(0);
-			setPosition(getPosition());
-			setVelocity(0);
-			setAngularAcceleration(0);
-			setAngularVelocity(0);
-		} else {
+            setAcceleration(0);
+            setPosition(getPosition());
+            setVelocity(0);
+            setAngularAcceleration(0);
+            setAngularVelocity(0);
+        } else {
 
-			// Tính gia tốc tịnh tiến (linear acceleration)
-			double newAcceleration = PhysicsCalculator.calculateAcceleration(netForce, getMass());
+            // Tính gia tốc tịnh tiến (linear acceleration)
+            double newAcceleration = PhysicsCalculator.calculateAcceleration(netForce, getMass());
 
-			// Tính vận tốc tịnh tiến mới
-			double newVelocity = PhysicsCalculator.calculateVelocity(getVelocity(), newAcceleration, deltaTime);
+            // Tính vận tốc tịnh tiến mới
+            double newVelocity = PhysicsCalculator.calculateVelocity(getVelocity(), newAcceleration, deltaTime);
 
-			// Nếu silinder không trượt (rolling without slipping)
-			if (!isSliding()) {
+            // Nếu silinder không trượt (rolling without slipping)
+            if (!isSliding()) {
 
-				// Tính vị trí mới
-				double newPosition = PhysicsCalculator.calculatePosition(getPosition(), getVelocity(), newAcceleration,
-						deltaTime);
+                // Tính vị trí mới
+                double newPosition = PhysicsCalculator.calculatePosition(getPosition(), getVelocity(), newAcceleration,
+                        deltaTime);
 
-				// Tính gia tốc góc (angular acceleration) từ gia tốc tịnh tiến
-				double newAngularAcceleration = newAcceleration / getRadius(); // α = a / r
+                // Tính gia tốc góc (angular acceleration) từ gia tốc tịnh tiến
+                double newAngularAcceleration = newAcceleration / getRadius(); // α = a / r
 
-				// Tính vận tốc góc từ vận tốc tịnh tiến (v = ω * r)
-				double newAngularVelocity = newVelocity / getRadius();
+                // Tính vận tốc góc từ vận tốc tịnh tiến (v = ω * r)
+                double newAngularVelocity = newVelocity / getRadius();
 
-				// Cập nhật các giá trị
-				setAcceleration(newAcceleration);
-				setVelocity(newVelocity);
-				setPosition(newPosition);
-				setAngularVelocity(newAngularVelocity);
-				setAngularAcceleration(newAngularAcceleration);
+                // Cập nhật các giá trị
+                setAcceleration(newAcceleration);
+                setVelocity(newVelocity);
+                setPosition(newPosition);
+                setAngularVelocity(newAngularVelocity);
+                setAngularAcceleration(newAngularAcceleration);
 
-			}
-			// Nếu silinder đang trượt
-			else {
+            }
+            // Nếu silinder đang trượt
+            else {
 
-				// Tính vị trí mới
-				double newPosition = PhysicsCalculator.calculatePosition(getPosition(), newVelocity, newAcceleration,
-						deltaTime);
+                // Tính vị trí mới
+                double newPosition = PhysicsCalculator.calculatePosition(getPosition(), newVelocity, newAcceleration,
+                        deltaTime);
 
-				// Tính gia tốc quay (angular acceleration) từ lực ma sát
-				double angularAcceleration = PhysicsCalculator.calculateAngularAcceleration(frictionForce, getMass(),
-						getRadius());
+                // Tính gia tốc quay (angular acceleration) từ lực ma sát
+                double angularAcceleration = PhysicsCalculator.calculateAngularAcceleration(frictionForce, getMass(),
+                        getRadius());
 
-				// Tính vận tốc góc mới
-				double newAngularVelocity = PhysicsCalculator.calculateAngularVelocity(getAngularVelocity(),
-						angularAcceleration, deltaTime);
+                // Tính vận tốc góc mới
+                double newAngularVelocity = PhysicsCalculator.calculateAngularVelocity(getAngularVelocity(),
+                        angularAcceleration, deltaTime);
 
-				// Tính vị trí góc mới (điều chỉnh góc)
-				double deltaAngularPosition = PhysicsCalculator.calculateDeltaAngularPosition(getAngularVelocity(),
-						angularAcceleration, deltaTime, getRadius());
+                // Tính vị trí góc mới (điều chỉnh góc)
+                double deltaAngularPosition = PhysicsCalculator.calculateDeltaAngularPosition(getAngularVelocity(),
+                        angularAcceleration, deltaTime, getRadius());
 
-				// Cập nhật các giá trị
-				setAcceleration(newAcceleration);
-				setVelocity(newVelocity);
-				setAngularVelocity(newAngularVelocity);
-				setPosition(newPosition + deltaAngularPosition); /// ?
+                // Cập nhật các giá trị
+                setAcceleration(newAcceleration);
+                setVelocity(newVelocity);
+                setAngularVelocity(newAngularVelocity);
+                setPosition(newPosition + deltaAngularPosition); /// ?
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	@Override
-	public void Rotatable() {
-		
-	}
-	
-	//-------------------------------------------------------------------------------------------
+    @Override
+    public void Rotatable() {
+        
+    }
+    
+    //-------------------------------------------------------------------------------------------
 }

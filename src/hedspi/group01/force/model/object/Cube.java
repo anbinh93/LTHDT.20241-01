@@ -10,10 +10,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Cube extends MainObject {
 	//-------------------------------------------------------------------------------------------
-    private DoubleProperty sideLength = new SimpleDoubleProperty(MAX * 0.3);
-    public static final double MAX = 1.0;
-    public static final double MIN = 0.1;
+    public static final double MAX_SIZE = 1.0;
+    public static final double MIN_SIZE = 0.1;
 
+    private DoubleProperty sideLength = new SimpleDoubleProperty(MAX_SIZE * 0.3);
 
     public Cube(double mass, double position, double velocity, 
     		double acceleration, double sideLength) throws Exception {
@@ -32,9 +32,9 @@ public class Cube extends MainObject {
     }
     
     public void setSideLength(double sideLength )throws Exception  {
-        if (sideLength < MIN || sideLength > MAX) {
-            this.sideLength.set(MAX*0.3);
-            throw new Exception("Cube's side length must be >= " + MIN + " and <= " + MAX);
+        if (sideLength < MIN_SIZE || sideLength > MAX_SIZE) {
+            this.sideLength.set(MAX_SIZE * 0.3);
+            throw new Exception("Cube's side length must be >= " + MIN_SIZE + " and <= " + MAX_SIZE);
         } else {
             this.sideLength.set(sideLength);
         }		

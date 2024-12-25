@@ -84,7 +84,7 @@ public class ForcePanelController {
 				forceSlider.setDisable(true);
 				// also set text filed and applied force to 0
 				forceTextField.setText("0");
-				this.simul.setaForce(0);
+				this.simul.getAppliedForce().setMagnitude(0);
 			} else {
 				// setDisable true of slider and text field when object != null
 				forceTextField.setDisable(false);
@@ -93,7 +93,7 @@ public class ForcePanelController {
 				// sets object relating to friction force
 				((FrictionForce) this.simul.getfForce()).setMainObj(newValue);
 				// update friction force when object changes
-				this.simul.getObj().velProperty().valueProperty().addListener((observable1, oldValue1, newValue1) -> {
+				this.simul.getObj().velProperty().addListener((observable1, oldValue1, newValue1) -> {
 					((FrictionForce) this.simul.getfForce()).updateFrictionForce();
 				});
 
@@ -106,15 +106,15 @@ public class ForcePanelController {
 	@FXML
 	void forceTextFieldOnAction(ActionEvent event) {
 		try {
-			this.simul.getaForce().setValue((double) Double.parseDouble(forceTextField.getText()));
-			if (Math.abs((double) Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
+			this.simul.getAppliedForce().setMagnitude(Double.parseDouble(forceTextField.getText()));
+			if (Math.abs(Double.parseDouble(forceTextField.getText())) > AppliedForce.ABS_MAX_AFORCE) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setContentText("\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <= " + AppliedForce.ABS_MAX_AFORCE);
 				alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 				alert.showAndWait();
 			}
 			System.out.println(
-					"Current Applied Force Value " + this.simul.getaForce().getValue() + " from On Action force Text");
+					"Current Applied Force Value " + this.simul.getAppliedForce().getMagnitude() + " from On Action force Text");
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setContentText(e.getMessage() + "\nPlease input a number >= -" + AppliedForce.ABS_MAX_AFORCE + " and <=" + AppliedForce.ABS_MAX_AFORCE);
