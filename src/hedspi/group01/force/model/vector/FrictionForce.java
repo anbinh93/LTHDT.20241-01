@@ -37,7 +37,7 @@ public class FrictionForce extends HorizontalVector {
 
     public void updateFrictionForce() {
         if (mainObj != null) {
-            double normalForce = mainObj.getMass() * 9.81; // Assuming gravity is 9.81 m/s^2
+            double normalForce = ForceCalculatable.calculateNormalForce(mainObj.getMass()) ; 
             double frictionMagnitude = mainObj.isMoving() ? kineticCoefficient.get() * normalForce : staticCoefficient.get() * normalForce;
             setMagnitude(frictionMagnitude);
             this.value.set(frictionMagnitude);
