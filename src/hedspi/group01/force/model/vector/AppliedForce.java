@@ -26,11 +26,19 @@ public class AppliedForce extends HorizontalVector {
 	public void setMagnitude(double magnitude) {
 		// When force exceeds its maximum and minimum threshold
 		if (magnitude > ABS_MAX_AFORCE) {
-			setMagnitude(ABS_MAX_AFORCE);
+			super.setMagnitude(ABS_MAX_AFORCE);
 		} else {
-			setMagnitude(magnitude);
+			super.setMagnitude(magnitude);
 		}
-		this.value.set(magnitude);
+		this.value.set(getMagnitude());
+	}
+
+	public DoubleProperty valueProperty() {
+		return value;
+	}
+
+	public double getValue() {
+		return value.get();
 	}
   //-------------------------------------------------------------------------------------------
 }

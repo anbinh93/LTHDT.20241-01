@@ -2,7 +2,7 @@ package hedspi.group01.force.controller;
 
 import hedspi.group01.force.model.Simulation;
 import hedspi.group01.force.model.object.Cube;
-import hedspi.group01.force.model.object.Rotatable;
+import hedspi.group01.force.model.object.Cylinder;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -167,7 +167,7 @@ public class StatisticsPanelController {
             }
 
             // Case 2: if the object in the simulation is in type of Cylinder.
-            else if (newValue instanceof Rotatable) {
+            else if (newValue instanceof Cylinder) {
                 angAccLabel.visibleProperty().bind(this.accCheckBox.selectedProperty());
                 angVelLabel.visibleProperty().bind(this.velCheckBox.selectedProperty());
                 angLabel.visibleProperty().bind(this.posCheckBox.selectedProperty());
@@ -206,15 +206,16 @@ public class StatisticsPanelController {
                 this.massLabel.setText(this.simul.getObj().getMass() + " kg");
                 this.massLabel.toFront();
 
-                if (newValue instanceof Rotatable) {
+                if (newValue instanceof Cylinder) {
+                    Cylinder cylinder = (Cylinder) newValue;
 
                     angLabel.textProperty().bind(
-                            Bindings.format("Angular Position\n%.2f *", ((Rotatable) this.simul.getObj()).angleProperty()));
+                            Bindings.format("Angular Position\n%.2f *", cylinder.angleProperty()));
 
                     angVelLabel.textProperty().bind(
-                            Bindings.format("Angular Velocity\n%.2f */s", ((Rotatable) this.simul.getObj()).angVelProperty()));
+                            Bindings.format("Angular Velocity\n%.2f */s", cylinder.angularVelocityProperty()));
 
-                    angAccLabel.textProperty().bind(Bindings.format("Angular Accelarate\n%.2f */s^2", ((Rotatable) this.simul.getObj()).angAccProperty()));
+                    angAccLabel.textProperty().bind(Bindings.format("Angular Accelarate\n%.2f */s^2", cylinder.angularAccelerationProperty()));
                 }
             } else {
                 posLabel.textProperty().unbind();

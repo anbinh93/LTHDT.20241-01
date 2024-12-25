@@ -38,15 +38,12 @@ public class Simulation {
 
     private AppliedForce aForce;
     private FrictionForce fForce;
-    private boolean isStart = new SimpleBooleanProperty(false);
+    private BooleanProperty isStart = new SimpleBooleanProperty(false);
     private BooleanProperty isPause = new SimpleBooleanProperty(false);
     private DoubleProperty sysVel = new SimpleDoubleProperty(0.0);
     private DoubleProperty sysAcc = new SimpleDoubleProperty(0.0);
     private DoubleProperty sysAngVel = new SimpleDoubleProperty(0.0);
     private DoubleProperty sysAngAcc = new SimpleDoubleProperty(0.0);
-
-    private boolean isStart;
-    private MainObject obj;
 
     /**
      * Default constructor initializes the `Simulation` with default `Surface`, `AppliedForce`, and `FrictionForce`.
@@ -138,7 +135,7 @@ public class Simulation {
     }
 
     public void setObject(MainObject obj) {
-        this.obj = obj;
+        this.mainObject.set(obj);
     }
 
     //--- Simulation State Management ---
@@ -266,16 +263,16 @@ public class Simulation {
         return sysAngAcc;
     }
 
-    public void setaForce(double value) {
-        aForce.setValue(value);
+    public void setaForce(double magnitude) {
+        aForce.setMagnitude(magnitude);
     }
 
     public boolean getIsStart() {
-        return isStart;
+        return isStart.get();
     }
 
     public void setIsStart(boolean isStart) {
-        this.isStart = isStart;
+        this.isStart.set(isStart);
     }
 
     public boolean getIsPause() {

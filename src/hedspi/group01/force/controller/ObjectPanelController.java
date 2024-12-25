@@ -8,7 +8,6 @@ import hedspi.group01.force.model.Simulation;
 import hedspi.group01.force.model.object.Cube;
 import hedspi.group01.force.model.object.Cylinder;
 import hedspi.group01.force.model.object.MainObject;
-import hedspi.group01.force.model.object.Rotatable;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -72,9 +71,12 @@ public class ObjectPanelController {
 	}
 
 	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
-			// Initialize the controller with the given simulation and stack panes
-			// Add your initialization code here
-		}
+		setSimul(simul);
+		setTopStackPane(topStackPane);
+		setDownStackPane(downStackPane);
+		setUpCircleRotation();
+		setUpDragandDrop();
+	}
 
 	public void setSimul(Simulation simul) {
 		this.simul = simul;
@@ -124,9 +126,10 @@ public class ObjectPanelController {
 
 		// Obj change , if object is cylinder then bind sysAngAcc to angAccProperty
 		this.simul.objProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue instanceof Rotatable) {
-				this.simul.getSysAngAcc().bind(((Rotatable) newValue).angAccProperty());
-				this.simul.getSysAngVel().bind(((Rotatable) newValue).angVelProperty());
+			if (newValue instanceof Cylinder) {
+				Cylinder cylinder = (Cylinder) newValue;
+				this.simul.getSysAngAcc().bind(cylinder.angularAccelerationProperty());
+				this.simul.getSysAngVel().bind(cylinder.angularVelocityProperty());
 			}
 		});
 
