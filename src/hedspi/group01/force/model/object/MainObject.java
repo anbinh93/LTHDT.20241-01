@@ -1,7 +1,10 @@
 package hedspi.group01.force.model.object;
 import hedspi.group01.force.model.surface.Surface;
+import hedspi.group01.force.model.vector.FrictionForce;
+import hedspi.group01.force.model.vector.HorizontalVector;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 //-------------------------------------------------------------------------------------------
@@ -51,7 +54,7 @@ public abstract class MainObject {
 		this.position.set(initialPosition);
 		this.velocity.set(0); // Initial velocity is 0
 		this.acceleration.set(0); // Initial acceleration is 0
-		this.isMoving.set(false);
+		this.isMoving = new SimpleBooleanProperty(false); // Initialize isMoving property
     }
     
     
@@ -143,7 +146,26 @@ public abstract class MainObject {
 
 	//-------------------------------------------------------------------------------------------
     
-    
+    /**
+     * Applies the given forces to the object over a specified time interval.
+     *
+     * @param netForce      The net force applied to the object.
+     * @param frictionForce The friction force acting on the object.
+     * @param timeInterval  The time interval over which the forces are applied.
+     */
+    public void applyForceInTime(HorizontalVector netForce, FrictionForce frictionForce, double timeInterval) {
+        // Calculate the net acceleration
+        double netAcceleration = netForce.getMagnitude() / getMass();
+
+        // Update the velocity and position based on the net acceleration
+        double newVelocity = getVelocity() + netAcceleration * timeInterval;
+        double newPosition = getPosition() + getVelocity() * timeInterval + 0.5 * netAcceleration * timeInterval * timeInterval;
+
+        // Update the object's properties
+        setVelocity(newVelocity);
+        setPosition(newPosition);
+        setAcceleration(netAcceleration);
+    }
 	
 	
 	

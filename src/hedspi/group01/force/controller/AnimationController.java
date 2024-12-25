@@ -62,17 +62,17 @@ public class AnimationController {
 		timer = new GameAnimationTimer() {
 			@Override
 			public void tick(double secondsSinceLastFrame) {
-				simul.applyForceInTime(secondsSinceLastFrame);
+				simul.applyForceToObject(secondsSinceLastFrame);
 			}
 		};
 
 		// Binding điều chỉnh tốc độ animation
-		this.simul.sysVelProperty().addListener((observable, oldValue, newValue) -> {
+		this.simul.systemVelocityProperty().addListener((observable, oldValue, newValue) -> {
 
-			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.2))
-					.then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
-			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.valueProperty().isEqualTo(0, 0.2))
-					.then(10e-5 * 5).otherwise(newValue.valueProperty().multiply(0.05)));
+			parallelTransitionUp.rateProperty().bind(Bindings.when(newValue.magnitudeProperty().isEqualTo(0, 0.2))
+					.then(10e-5 * 5).otherwise(newValue.magnitudeProperty().multiply(0.05)));
+			parallelTransitionDown.rateProperty().bind(Bindings.when(newValue.magnitudeProperty().isEqualTo(0, 0.2))
+					.then(10e-5 * 5).otherwise(newValue.magnitudeProperty().multiply(0.05)));
 		});
 
 		// Xử lý responsive cho giao diện
