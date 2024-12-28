@@ -7,46 +7,46 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Cylinder extends MainObject implements Rotatable {
 	/**
-	 * Holds the angle property of this Cylinder
+	 * Đảm nhiệm thuộc tính góc của Cylinder này
 	 */
 	private DoubleProperty angle = new SimpleDoubleProperty();
 	/**
-	 * Holds the angular acceleration property of this Cylinder
+	 * Đảm nhiệm thuộc tính gia tốc góc của Cylinder này
 	 */
 	private DoubleProperty angAcc = new SimpleDoubleProperty();
 	/**
-	 * Holds the angular velocity property of this Cylinder
+	 * Đảm nhiệm thuộc tính vận tốc góc của Cylinder này
 	 */
 	private DoubleProperty angVel = new SimpleDoubleProperty();
 	/**
-	 * Holds the radius property of this Cylinder. Default radius = 0.3 *
+	 * Đảm nhiệm thuộc tính bán kính của Cylinder này. Bán kính mặc định = 0.3 *
 	 */
 	private DoubleProperty radius = new SimpleDoubleProperty(MAX_RADIUS * 0.3);
 	/**
-	 * Holds the max radius of class Cylinder
+	 * Đảm nhiệm bán kính tối đa của lớp Cylinder
 	 */
 	public static final double MAX_RADIUS = 1.0;
 	/**
-	 * Holds the min radius of class Cylinder
+	 * Đảm nhiệm bán kính tối thiểu của lớp Cylinder
 	 */
 	public static final double MIN_RADIUS = 0.1;
 
 	/**
-	 * Default class constructor
+	 * Hàm khởi tạo mặc định của lớp
 	 */
 	public Cylinder() throws Exception {
 		super();
 	}
 
 	/**
-	 * Class constructor specifying mass
+	 * Hàm khởi tạo lớp chỉ định khối lượng
 	 */
 	public Cylinder(double mass) throws Exception {
 		super(mass);
 	}
 
 	/**
-	 * Class constructor specifying mass and size
+	 * Hàm khởi tạo lớp chỉ định khối lượng và kích thước
 	 */
 	public Cylinder(double mass, double radius) throws Exception {
 		this(mass);
@@ -70,7 +70,7 @@ public class Cylinder extends MainObject implements Rotatable {
 
 	@Override
 	public void updateAngAcc(Force force) {
-		// In case there is no friction force, cylinder just translates
+		// Trường hợp không có lực ma sát, cylinder chỉ dịch chuyển
 		if (force instanceof FrictionForce) {
 			setAngAcc(-force.getValue() / (0.5 * getMass() * getRadius() * getRadius()));
 		}
@@ -113,7 +113,8 @@ public class Cylinder extends MainObject implements Rotatable {
 
 	@Override
 	public void updateAngle(double oldAngVel, double t) {
-		setAngle(getAngle() + oldAngVel * t + 0.5 * getAngAcc() * t * t);
+		double newAngle = getAngle() + oldAngVel * t + 0.5 * getAngAcc() * t * t;
+		setAngle(newAngle % 360); // Giới hạn giá trị góc trong khoảng 0-360
 	}
 
 	@Override
@@ -130,7 +131,7 @@ public class Cylinder extends MainObject implements Rotatable {
 	public void setRadius(double radius) throws Exception {
 		if (radius < MIN_RADIUS || radius > MAX_RADIUS) {
 			this.radius.setValue(MAX_RADIUS * 0.3);
-			throw new Exception("The radius of object must be >= " + MIN_RADIUS + " and <= " + MAX_RADIUS);
+			throw new Exception("Bán kính của đối tượng phải >= " + MIN_RADIUS + " và <= " + MAX_RADIUS);
 		} else {
 			this.radius.setValue(radius);
 		}
@@ -144,13 +145,13 @@ public class Cylinder extends MainObject implements Rotatable {
 		updateAngle(oldAngVel, t);
 	}
 	/**
-	 * netForce causes translation and fForce causes rotation
+	 * netForce gây ra dịch chuyển và fForce gây ra quay
 	 */
 	@Override
 	public void applyForceInTime(Force netforce, Force fForce, double t) {
-		// Applies netForce (sum of forces) for translation
+		// Áp dụng netForce (tổng của các lực) cho dịch chuyển
 		super.applyForceInTime(netforce, fForce, t);
-		// Applies fForce (friction force) for rotation
+		// Áp dụng fForce (lực ma sát) cho quay
 		this.applyForceInTimeRotate(fForce, t);
 	}
 }
