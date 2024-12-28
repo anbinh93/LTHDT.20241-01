@@ -1,13 +1,14 @@
 package hedspi.group01.force.controller;
 
-import hedspi.group01.force.model.Simulation;
 import hedspi.group01.force.controller.utils.GameAnimationTimer;
+import hedspi.group01.force.model.Simulation;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -42,6 +43,14 @@ public class AnimationController {
 	private ImageView backGroundMiddleDown;
 	@FXML
 	private ImageView backGroundRightDown;
+
+	@FXML
+	public void initialize() {
+		backGroundMiddleUp.setImage(new Image(getClass().getResourceAsStream("/hedspi/group01/force/images/top_background.png")));
+		backGroundRightUp.setImage(new Image(getClass().getResourceAsStream("/hedspi/group01/force/images/top_background.png")));
+		backGroundMiddleDown.setImage(new Image(getClass().getResourceAsStream("/hedspi/group01/force/images/down_background.png")));
+		backGroundRightDown.setImage(new Image(getClass().getResourceAsStream("/hedspi/group01/force/images/down_background.png")));
+	}
 
 	public ParallelTransition getParallelTransitionUp() {
 		return this.parallelTransitionUp;

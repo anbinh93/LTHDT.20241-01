@@ -22,6 +22,7 @@ public class ForceSimulationAppController {
 	private Simulation simul;
 
 	private StackPane topStackPane;
+	@FXML
 	private StackPane downStackPane;
 
 	private GridPane controlPanel;

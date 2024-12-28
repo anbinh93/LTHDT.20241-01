@@ -1,49 +1,30 @@
 package hedspi.group01.force;
 
-import hedspi.group01.force.controller.ForceSimulationAppController;
-import hedspi.group01.force.model.Simulation;
-import hedspi.group01.force.model.surface.Surface;
-import hedspi.group01.force.model.vector.AppliedForce;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Name for the application
-        final String appName = "Force Simulation App";
-        primaryStage.setTitle(appName);
+    public void start(Stage primaryStage) {
+        // Load the image from resources
+        Image image = new Image(getClass().getResourceAsStream("/hedspi/group01/force/images/app_icon.png"));
+        ImageView imageView = new ImageView(image);
 
-        // Set icon for the application
-        String iconPath = "/hedspi/group01/force/resources/images/app_icon.png";
-        if (getClass().getResource(iconPath) != null) {
-            System.out.println("Icon resource found: " + getClass().getResource(iconPath));
-            primaryStage.getIcons().add(new Image(getClass().getResource(iconPath).toExternalForm()));
-        } else {
-            System.err.println("Icon resource not found: " + iconPath);
-        }
+        // Set up the layout
+        StackPane root = new StackPane();
+        root.getChildren().add(imageView);
 
-        // Set minimum windows size to avoid unusual look
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(850);
+        // Set up the scene
+        Scene scene = new Scene(root, 800, 600);
 
-        // Load view for the stage
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/hedspi/group01/force/view/RootLayout.fxml"));
-        Parent rootLayout = loader.load();
-        Scene scene = new Scene(rootLayout);
+        // Set up the stage
+        primaryStage.setTitle("Image Viewer");
         primaryStage.setScene(scene);
-
-        // Load model for view through its controller
-        ForceSimulationAppController appController = loader.getController();
-        Simulation simul = new Simulation(null, new Surface(), new AppliedForce(0));
-        appController.init(simul);
-
-        // Display the stage
         primaryStage.show();
     }
 

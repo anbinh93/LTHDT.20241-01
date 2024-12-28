@@ -1,5 +1,7 @@
 package hedspi.group01.force;
 
+import java.net.URL;
+
 import hedspi.group01.force.controller.ForceSimulationAppController;
 import hedspi.group01.force.model.Simulation;
 import hedspi.group01.force.model.surface.Surface;
@@ -18,8 +20,16 @@ public class ForceSimulationApp extends Application {
         final String appName = "Force Simulation App";
         primaryStage.setTitle(appName);
 
+        // Debug logging
+        URL iconUrl = ForceSimulationApp.class.getResource("/hedspi/group01/force/images/app_icon.png");
+        // System.out.println("Icon URL: " + iconUrl);
+        URL fxmlUrl = ForceSimulationApp.class.getResource("/hedspi/group01/force/view/RootLayout.fxml");
+        // System.out.println("FXML URL: " + fxmlUrl);
+        URL cssUrl = ForceSimulationApp.class.getResource("/hedspi/group01/force/css/sliderStyle.css");
+        // System.out.println("CSS URL: " + cssUrl);
+
         // Set icon for the application
-        primaryStage.getIcons().add(new Image("/hedspi/group01/force/resources/images/app_icon.png"));
+        primaryStage.getIcons().add(new Image(ForceSimulationApp.class.getResourceAsStream("/hedspi/group01/force/images/app_icon.png")));
 
         // Set minimum windows size to avoid unusual look
         primaryStage.setMinHeight(600);
@@ -27,9 +37,15 @@ public class ForceSimulationApp extends Application {
 
         // Load view for the stage
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/hedspi/group01/force/view/RootLayout.fxml"));
+        loader.setLocation(ForceSimulationApp.class.getResource("/hedspi/group01/force/view/RootLayout.fxml"));
         Parent rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
+        
+        // Add CSS files
+        scene.getStylesheets().add(ForceSimulationApp.class.getResource("/hedspi/group01/force/css/sliderStyle.css").toExternalForm());
+        scene.getStylesheets().add(ForceSimulationApp.class.getResource("/hedspi/group01/force/css/errorTheme.css").toExternalForm());
+        scene.getStylesheets().add(ForceSimulationApp.class.getResource("/hedspi/group01/force/css/checkboxStyle.css").toExternalForm());
+        
         primaryStage.setScene(scene);
 
         // Load model for view through its controller
