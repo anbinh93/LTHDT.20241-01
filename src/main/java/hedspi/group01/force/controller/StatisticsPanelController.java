@@ -273,7 +273,7 @@ public class StatisticsPanelController {
 		aArrow.visibleProperty().bind(this.forceCheckBox.selectedProperty());
 		StackPane.setAlignment(aArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(aArrow);
-		aArrow.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/resources/images/aArrow_image.png").toExternalForm())));
+		aArrow.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/images/aArrow_image.png").toExternalForm())));
 		aArrow.setStrokeWidth(0);
 		aArrow.setStroke(Color.TRANSPARENT);
 
@@ -399,7 +399,7 @@ public class StatisticsPanelController {
 		fArrow.visibleProperty().bind(this.forceCheckBox.selectedProperty());
 		StackPane.setAlignment(fArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(fArrow);
-		fArrow.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/resources/images/fArrow_image.png").toExternalForm())));
+		fArrow.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/images/fArrow_image.png").toExternalForm())));
 		fArrow.setStrokeWidth(0);
 		StackPane.setAlignment(fArrowLabel, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(fArrowLabel);
@@ -492,13 +492,13 @@ public class StatisticsPanelController {
 	};
 
 	private void setUpNetForce() {
-		nArrow = new Rectangle(200, 50);
+		nArrow = new Rectangle(150, 30);
 		nArrow.visibleProperty().bind(this.sumForcesCheckBox.selectedProperty());
 		StackPane.setAlignment(nArrow, Pos.BOTTOM_CENTER);
 		this.stackPane.getChildren().add(nArrow);
-		nArrow.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/resources/images/sumArrow_image.png").toExternalForm())));
-
+		nArrow.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/images/sumArrow_image.png").toExternalForm())));
 		nArrow.setStrokeWidth(0);
+		nArrow.setSmooth(true);
 
 		// Label for arrow
 		StackPane.setAlignment(nArrowLabel, Pos.BOTTOM_CENTER);

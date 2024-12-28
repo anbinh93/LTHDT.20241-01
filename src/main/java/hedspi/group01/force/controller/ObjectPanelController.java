@@ -75,8 +75,8 @@ public class ObjectPanelController {
 
 	public void init(Simulation simul, StackPane topStackPane, StackPane downStackPane) {
 		// Setting image for the Cylinder and Cube.
-		cir.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/resources/images/cylinder_image.png").toExternalForm())));
-		rec.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/resources/images/cube_image.png").toExternalForm())));
+		cir.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/images/cylinder_image.png").toExternalForm())));
+		rec.setFill(new ImagePattern(new Image(getClass().getResource("/hedspi/group01/force/images/cube_image.png").toExternalForm())));
 
 		setSimul(simul);
 		setTopStackPane(topStackPane);
@@ -202,7 +202,7 @@ public class ObjectPanelController {
 					&& !cubeMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
 		// Theme
-		cubeMass.getStylesheets().add(getClass().getResource("/hedspi/group01/force/resources/css/errorTheme.css").toExternalForm());
+		cubeMass.getStylesheets().add(getClass().getResource("/hedspi/group01/force/css/errorTheme.css").toExternalForm());
 
 		// Similar for the side
 		TextField cubeSide = new TextField();
@@ -211,7 +211,7 @@ public class ObjectPanelController {
 			cubeSide.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), !cubeSide.getText().isEmpty()
 					&& !cubeSide.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
-		cubeSide.getStylesheets().add(getClass().getResource("/hedspi/group01/force/resources/css/errorTheme.css").toExternalForm());
+		cubeSide.getStylesheets().add(getClass().getResource("/hedspi/group01/force/css/errorTheme.css").toExternalForm());
 
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);
 		OKEButton.setDisable(true);
@@ -313,7 +313,7 @@ public class ObjectPanelController {
 			cylinderMass.pseudoClassStateChanged(PseudoClass.getPseudoClass("error"), !cylinderMass.getText().isEmpty()
 					&& !cylinderMass.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
-		cylinderMass.getStylesheets().add(getClass().getResource("/hedspi/group01/force/resources/css/errorTheme.css").toExternalForm());
+		cylinderMass.getStylesheets().add(getClass().getResource("/hedspi/group01/force/css/errorTheme.css").toExternalForm());
 
 		TextField cylinderRadius = new TextField();
 		cylinderRadius.setPromptText("Input radius for cylinder");
@@ -322,7 +322,7 @@ public class ObjectPanelController {
 					!cylinderRadius.getText().isEmpty()
 							&& !cylinderRadius.getText().matches("^([+]?)(0|([1-9][0-9]*))(\\.[0-9]+)?$"));
 		});
-		cylinderRadius.getStylesheets().add(getClass().getResource("/hedspi/group01/force/resources/css/errorTheme.css").toExternalForm());
+		cylinderRadius.getStylesheets().add(getClass().getResource("/hedspi/group01/force/css/errorTheme.css").toExternalForm());
 
 		// Enable/Disable OKE Button
 		Node OKEButton = dialog.getDialogPane().lookupButton(OKEType);

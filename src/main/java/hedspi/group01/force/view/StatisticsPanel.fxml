@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane alignment="CENTER_LEFT" maxHeight="200.0" maxWidth="180.0" minHeight="200.0" minWidth="180.0" opacity="0.95" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: #EDEADE; -fx-background-radius: 15;" stylesheets="@../../../../../resources/css/checkboxStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hedspi.group01.force.controller.StatisticsPanelController">
+<StackPane alignment="CENTER_LEFT" maxHeight="200.0" maxWidth="180.0" minHeight="200.0" minWidth="180.0" opacity="0.95" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: #EDEADE; -fx-background-radius: 15;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hedspi.group01.force.controller.StatisticsPanelController">
 	<children>
 		<Label fx:id="angLabel" styleClass="statistic-display" text="angLabel" textAlignment="CENTER" visible="false">
 			<StackPane.margin>
@@ -97,37 +97,37 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </padding>
 		</Label>
-		<CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Position">
+		<CheckBox fx:id="posCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Position">
 			<StackPane.margin>
 				<Insets top="150.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Acceleration">
+		<CheckBox fx:id="accCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Acceleration">
 			<StackPane.margin>
 				<Insets top="100.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Velocity">
+		<CheckBox fx:id="velCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" text="Velocity">
 			<StackPane.margin>
 				<Insets top="50.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="sumForcesCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Sum of Forces">
+		<CheckBox fx:id="sumForcesCheckBox" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" text="Sum of Forces">
 			<StackPane.margin>
 				<Insets top="-100.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Mass">
+		<CheckBox fx:id="massCheckBox" layoutX="10.0" layoutY="235.0" mnemonicParsing="false" text="Mass">
 			<StackPane.margin>
 				<Insets />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="forceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Forces">
+		<CheckBox fx:id="forceCheckBox" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" selected="true" text="Forces">
 			<StackPane.margin>
 				<Insets top="-150.0" />
 			</StackPane.margin>
 		</CheckBox>
-		<CheckBox fx:id="valueCheckBox" mnemonicParsing="false" stylesheets="@../../../../../resources/css/checkboxStyle.css" text="Values">
+		<CheckBox fx:id="valueCheckBox" mnemonicParsing="false" text="Values">
 			<StackPane.margin>
 				<Insets top="-50.0" />
 			</StackPane.margin>
